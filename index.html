@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lykke Gowran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff; --ink:#000; color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --f:"Archivo Black",Archivo,"Helvetica Neue",Arial,sans-serif;
+  --b:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+*,*::before,*::after{box-sizing:inherit;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);font-weight:400;font-synthesis:none;font-size:max(10px,.625vw);line-height:1.2;}
+a{color:inherit;text-decoration:none;}
+a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offset:3px;}
+button{font:inherit;color:inherit;background:none;border:0;padding:6px 8px;cursor:pointer;text-transform:uppercase;}
+header{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + .9vw) 1.1vw 0;color:#fff;mix-blend-mode:difference;text-transform:uppercase;font-size:max(10px,.625vw);}
+header a{padding:6px 0;}
+header .nm{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;}
+body.home header .nm{display:none;}
+body.home header{mix-blend-mode:normal;color:#fff;}
+/* landing */
+.hero{position:relative;height:100svh;display:grid;place-items:center;color:#fff;overflow:hidden;}
+.hero h1{position:relative;z-index:2;pointer-events:none;margin:0;font-size:clamp(15px,2vw,34px);font-weight:400;letter-spacing:.01em;text-transform:uppercase;}
+.sl{position:absolute;inset:0;opacity:0;transition:opacity 1s ease;display:block;}
+.sl.on{opacity:1;}
+.sl .ph,.sl img{width:100%;height:100%;object-fit:cover;display:block;}
+@media (prefers-reduced-motion:reduce){.sl{transition:none;}}
+/* placeholders */
+.ph{background:hsl(var(--h) 12% var(--l));position:relative;}
+.ph[data-n]::after{content:attr(data-n);position:absolute;left:8px;bottom:6px;font-size:10px;font-weight:500;color:rgba(255,255,255,.85);}
+/* projects page */
+.pj{position:relative;height:100svh;}
+.plist{position:absolute;left:1.1vw;top:calc(env(safe-area-inset-top,0px) + 3.2vw);display:flex;flex-direction:column;font-size:max(13px,1.04vw);}
+.plist a{padding:0;line-height:1.1;}
+.plist a:hover,.plist a:focus-visible{text-decoration:underline;text-underline-offset:3px;}
+.prev{position:absolute;left:29.1%;top:5.7%;height:91%;aspect-ratio:1310/983;max-width:68.2%;overflow:hidden;}
+.prev>*{width:100%;height:100%;object-fit:cover;display:block;}
+.prev>model-viewer{object-fit:initial;}
+.prev>video{background:#fff;}
+/* project canvas (Figma frame, 1920 wide) */
+.cv{position:relative;width:100%;overflow:hidden;background:#fff;container-type:inline-size;}
+.cv .it{position:absolute;}
+.cv .it>img{width:100%;height:100%;object-fit:cover;display:block;}
+.cv .it>.ph{width:100%;height:100%;}
+.tx{position:absolute;margin:0;font-family:var(--b);font-weight:100;font-size:max(9px,.625cqw);line-height:1.18;color:#000;}
+.tx .t{font-style:italic;font-weight:300;}
+.tx i{font-style:italic;}
+.slot{position:absolute;inset:0;display:grid;place-items:center;font-weight:400;color:#bbb;}
+/* video carousel */
+.vc{overflow:hidden;}
+.vs{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;}
+.vs::-webkit-scrollbar{display:none;}
+.vs>div{flex:0 0 100%;scroll-snap-align:start;position:relative;height:100%;}
+.vs video{width:100%;height:100%;object-fit:contain;display:block;background:transparent;}
+.vc.cover .vs video{object-fit:cover;}
+.vc.strip .vs{align-items:center;gap:1.4cqw;padding:0 1.4cqw;scroll-snap-type:x proximity;}
+.vc.strip .vs>div{flex:0 0 44%;height:auto;aspect-ratio:16/9;scroll-snap-align:center;}
+.vc.strip .vs video{object-fit:cover;}
+.vc.strip .vn{bottom:.2cqw;}
+.vc.proc .vs{gap:1.2cqw;scroll-snap-type:x proximity;}
+.vc.proc .vs>div{flex:0 0 auto;width:auto;scroll-snap-align:start;}
+.vc.proc img,.vc.proc video{height:100%;width:auto;display:block;max-width:none;}
+.vc.proc .vn{bottom:.5cqw;}
+.mf .vc.proc{height:62vw;aspect-ratio:auto;margin-bottom:34px;}
+.vn{position:absolute;left:0;right:0;bottom:.4cqw;display:flex;justify-content:center;align-items:center;gap:1.2cqw;color:#fff;mix-blend-mode:difference;text-transform:uppercase;font-size:max(10px,.625cqw);z-index:2;pointer-events:none;}
+.vn button{pointer-events:auto;padding:4px 8px;}
+.vm model-viewer{display:block;width:100%;height:100%;background:transparent;--poster-color:transparent;}
+/* book */
+.bk{position:relative;aspect-ratio:16/9;background:#fff;overflow:hidden;display:grid;place-items:center;align-items:start;}
+.spread{display:flex;align-items:center;justify-content:center;width:100%;height:82%;margin-top:1.5%;cursor:pointer;}
+.spread img{max-width:92%;max-height:100%;width:auto;height:auto;display:block;filter:drop-shadow(0 6px 18px rgba(0,0,0,.18));}
+.spread .ph{width:70%;height:80%;}
+.bkit .bk{aspect-ratio:auto;width:100%;height:100%;}
+.bkit .spread{height:88%;margin-top:0;}
+.bkit .spread img{filter:none;}
+.bkit .spread img{max-width:100%;max-height:100%;}
+.mf .bkit .bk{aspect-ratio:4/3;height:auto;margin-bottom:14px;}
+.bkc{position:absolute;bottom:.8vw;left:0;right:0;display:flex;justify-content:center;gap:1.5vw;align-items:center;}
+.end{display:flex;justify-content:space-between;gap:16px;padding:3vw 1.1vw 2vw;text-transform:uppercase;}
+.end a:hover{text-decoration:underline;text-underline-offset:3px;}
+/* about */
+.about{display:grid;grid-template-columns:29.1vw minmax(0,1fr);gap:0;padding:7vw 1.1vw 8vw;}
+.about .ap img{display:block;width:100%;height:auto;}
+.about .ah{text-transform:none;font-family:var(--b);font-weight:400;margin-top:2.2em;}
+.about a{text-decoration:underline;text-underline-offset:3px;}
+.about p{max-width:44em;margin:0 0 .8em;font-family:var(--b);font-weight:100;font-size:max(12px,.8vw);}
+/* mobile flow */
+.mf{padding:56px 14px 0;}
+.mf .mi{position:relative;overflow:hidden;margin-bottom:14px;}
+.mf .mi img{width:100%;height:100%;object-fit:cover;display:block;}
+.mf .tx{position:static;font-size:12px;margin:0 0 14px;width:auto;}
+.mf .vc{height:auto;aspect-ratio:16/9;margin-bottom:14px;}
+.mf .vm{display:flex;flex-direction:column;gap:14px;margin-bottom:14px;}
+.mf .vm model-viewer{height:70vw;}
+@media (max-width:700px){
+  .plist{position:static;padding:calc(env(safe-area-inset-top,0px) + 56px) 14px 40px;font-size:18px;gap:4px;}
+  .prev{display:none;}
+  .pj{height:auto;}
+  .about{grid-template-columns:1fr;gap:24px;padding:80px 14px 60px;}
+  header{padding:calc(env(safe-area-inset-top,0px) + 14px) 14px 0;}
+  .end{padding:24px 14px 20px;}
+}
+</style>
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+<header><a href="#projects">Projects</a><a href="#" class="nm">Lykke Gowran</a><a href="#about">About me</a></header>
+<main id="app"></main>
+<script src="models.js"></script>
+<script>
+/* ===== HOW THE FILES ARE FOUND =====
+   Images:  images/<project>/<file>.jpg   (matched to the Figma layer name by its first word, e.g. "IMG_4752 copy 1" -> IMG_4752*.jpg)
+   Videos:  VIDEO_BASE + <name>.mp4       3D models: models/<name>.glb */
+var VIDEO_BASE = "video/";
+var LABELS = true;
+var FILES = {"ak-cinder": {"IMG_1267": "IMG_1267 1.jpg", "IMG_1300": "IMG_1300 1.jpg", "IMG_1301": "IMG_1301 1.jpg", "IMG_1303": "IMG_1303 1.jpg", "IMG_8933": "IMG_8933 2.jpg", "IMG_8935": "IMG_8935 1.jpg", "IMG_8939": "IMG_8939 2.jpg", "IMG_8941": "IMG_8941 1.jpg", "IMG_8950": "IMG_8950 1.jpg", "IMG_8953": "IMG_8953 1 2.jpg"}, "chloe": {"DSCF1066": "DSCF1066 1 copy 1.jpg", "DSCF1092": "DSCF1092 2 copy 3.jpg", "DSCF1139": "DSCF1139 1 copy 2.jpg", "DSCF1194": "DSCF1194 1 copy 1.jpg", "DSCF1204": "DSCF1204 1 copy 2.jpg", "DSCF1234": "DSCF1234 1 copy 2.jpg", "DSCF1245": "DSCF1245 1 copy 1.jpg", "DSCF1321": "DSCF1321 1 copy 3.jpg"}, "hair-bible": {"hairbible_1": "hairbible_1.jpg", "hairbible_10": "hairbible_10.jpg", "hairbible_11": "hairbible_11.jpg", "hairbible_12": "hairbible_12.jpg", "hairbible_13": "hairbible_13.jpg", "hairbible_14": "hairbible_14.jpg", "hairbible_15": "hairbible_15.jpg", "hairbible_16": "hairbible_16.jpg", "hairbible_17": "hairbible_17.jpg", "hairbible_18": "hairbible_18.jpg", "hairbible_19": "hairbible_19.jpg", "hairbible_2": "hairbible_2.jpg", "hairbible_20": "hairbible_20.jpg", "hairbible_21": "hairbible_21.jpg", "hairbible_22": "hairbible_22.jpg", "hairbible_23": "hairbible_23.jpg", "hairbible_24": "hairbible_24.jpg", "hairbible_25": "hairbible_25.jpg", "hairbible_26": "hairbible_26.jpg", "hairbible_27": "hairbible_27.jpg", "hairbible_28": "hairbible_28.jpg", "hairbible_29": "hairbible_29.jpg", "hairbible_3": "hairbible_3.jpg", "hairbible_30": "hairbible_30.jpg", "hairbible_31": "hairbible_31.jpg", "hairbible_32": "hairbible_32.jpg", "hairbible_33": "hairbible_33.jpg", "hairbible_34": "hairbible_34.jpg", "hairbible_35": "hairbible_35.jpg", "hairbible_36": "hairbible_36.jpg", "hairbible_37": "hairbible_37.jpg", "hairbible_38": "hairbible_38.jpg", "hairbible_39": "hairbible_39.jpg", "hairbible_4": "hairbible_4.jpg", "hairbible_40": "hairbible_40.jpg", "hairbible_41": "hairbible_41.jpg", "hairbible_42": "hairbible_42.jpg", "hairbible_43": "hairbible_43.jpg", "hairbible_44": "hairbible_44.jpg", "hairbible_45": "hairbible_45.jpg", "hairbible_46": "hairbible_46.jpg", "hairbible_47": "hairbible_47.jpg", "hairbible_48": "hairbible_48.jpg", "hairbible_49": "hairbible_49.jpg", "hairbible_5": "hairbible_5.jpg", "hairbible_50": "hairbible_50.jpg", "hairbible_51": "hairbible_51.jpg", "hairbible_52": "hairbible_52.jpg", "hairbible_53": "hairbible_53.jpg", "hairbible_6": "hairbible_6.jpg", "hairbible_7": "hairbible_7.jpg", "hairbible_8": "hairbible_8.jpg", "hairbible_9": "hairbible_9.jpg"}, "jade": {"IMG_4229": "IMG_4229 2 1.jpg", "IMG_4280": "IMG_4280 2 3.jpg", "IMG_4284": "IMG_4284 2.jpg", "IMG_4298": "IMG_4298 2 2.jpg"}, "jahanam": {"IMG_0168": "IMG_0168.jpg"}, "jesseli": {"DSCF3027": "DSCF3027 copy 1.jpg", "DSCF3063": "DSCF3063 1 2.jpg", "DSCF3099": "DSCF3099 1 1.jpg", "DSCF3305": "DSCF3305 2 2.jpg", "DSCF3356": "DSCF3356 copy 1.jpg", "DSCF3372": "DSCF3372 2.jpg"}, "katarinahissen": {"IMG_0270": "IMG_0270 1 2.jpg", "IMG_0297": "IMG_0297 1 2.jpg", "IMG_0307": "IMG_0307 1 3.jpg", "IMG_0316": "IMG_0316 1 2.jpg", "process-still": "process-still.jpg"}, "lara": {"IMG_5122": "IMG_5122 2 2.jpg", "IMG_5125": "IMG_5125 3 2.jpg", "IMG_5196": "IMG_5196 2 2.jpg", "IMG_5200": "IMG_5200 2 2.jpg", "IMG_6200": "IMG_6200 2.jpg", "IMG_6202": "IMG_6202 1.jpg", "IMG_6205": "IMG_6205 3 2.jpg"}, "nathalia": {"DSCF1383": "DSCF1383 1 1 copy 1.jpg", "DSCF1396": "DSCF1396 1 copy 1.jpg", "DSCF9057": "DSCF9057 1 3.jpg", "IMG_4752": "IMG_4752 copy 1.jpg", "IMG_7341": "IMG_7341 1.jpg", "IMG_7343": "IMG_7343 1.jpg", "IMG_7381": "IMG_7381 1.jpg", "Untitled.001": "Untitled.001 1.jpg", "look3": "look3 4.jpg", "n2": "n2 copy 1.jpg", "n21": "n21 copy 1.jpg", "n30": "n30 copy 1.jpg"}, "sonic-erection": {"DSCF8205": "DSCF8205 2 1.jpg", "DSCF8410": "DSCF8410 3 1.jpg", "DSCF8411": "DSCF8411 2 1.jpg", "IMG_4445": "IMG_4445 2 1.jpg", "IMG_4543": "IMG_4543 2 2.jpg", "IMG_4562": "IMG_4562 2 3.jpg", "IMG_4583": "IMG_4583 2 2.jpg", "IMG_4587": "IMG_4587 2 2.jpg", "IMG_4596": "IMG_4596 3 2.jpg", "IMG_4597": "IMG_4597 2 2.jpg", "IMG_6601": "IMG_6601.jpg", "IMG_6602": "IMG_6602.jpg", "IMG_6605": "IMG_6605.jpg", "IMG_6608": "IMG_6608.jpg", "IMG_6609": "IMG_6609.jpg", "IMG_6610": "IMG_6610.jpg", "IMG_6611": "IMG_6611.jpg", "IMG_6613": "IMG_6613.jpg", "IMG_6616": "IMG_6616.jpg", "IMG_6617": "IMG_6617.jpg", "IMG_6618": "IMG_6618.jpg", "IMG_6620": "IMG_6620.jpg", "hill1": "hill1 3 2.jpg", "hill4": "hill4 2 1.jpg", "image": "image 13.jpg", "train1": "train1 4 2.jpg"}, "landing": {"DSCF1092": "DSCF1092 2 copy 2.jpg", "DSCF3063": "DSCF3063 1 1.jpg", "IMG_4280": "IMG_4280 2 2.jpg", "IMG_6200": "IMG_6200 Medium 1.jpg", "IMG_8953": "IMG_8953 1 1.jpg", "hill1": "hill1 3 1.jpg", "look3": "look3 copy 1.jpg"}};
+
+/* Items are in Figma frame coordinates (frame is 1920 wide, y from the top of the frame).
+   i = image, t = text, v = video carousel, m = 3D models, g = gif   */
+var P = [
+{s:"nathalia",t:"Nathalia",h:330,H:8698,it:[
+ {k:"i",n:"DSCF9057 1 3",x:0,y:-100,w:1920,h:1280},
+ {k:"t",x:4,y:1183,w:433,html:'<span class="t">Nathalia.</span> Ongoing project<br>Styling, photography and social media for Swedish artist Nathalia.'},
+ {k:"i",n:"IMG_4752 copy 1",x:0,y:1283,w:832,h:1246},
+ {k:"i",n:"n2 copy 1",x:1088,y:1283,w:832,h:1246},
+ {k:"i",n:"look3 4",x:0,y:2632,w:1920,h:1080},
+ {k:"i",n:"n30 copy 1",x:0,y:3942,w:1170,h:829},
+ {k:"i",n:"n21 copy 1",x:1226,y:4145,w:694,h:423},
+ {k:"i",n:"Untitled.001 1",x:27,y:5001,w:1893,h:780},
+ {k:"v",strip:1,x:0,y:5790,w:1920,h:520,v:[["nathalia-fifteen-minutes","Fifteen Minutes (feat. Raghd)"],["nathalia-in-our-prime","In Our Prime"],["nathalia-lucks-gonna-come","Luck’s Gonna Come"],["nathalia-powder","Powder"],["nathalia-what-ill-become","What I’ll Become"]]},
+ {k:"i",n:"DSCF1396 1 copy 1",x:0,y:6428,w:1920,h:1022},
+ {k:"i",n:"IMG_7381 1",x:0,y:7680,w:640,h:854},
+ {k:"i",n:"IMG_7343 1",x:640,y:7680,w:640,h:853},
+ {k:"i",n:"IMG_7341 1",x:1280,y:7680,w:640,h:854}]},
+{s:"ak-cinder",t:"AK Cinder",h:200,H:3745,it:[
+ {k:"i",n:"IMG_1300 1",x:0,y:0,w:1920,h:1110},
+ {k:"t",x:15,y:1124,w:433,html:'<span class="t">AK Cinder.</span> 2026<br>BTS Photography for Swedish artist AK Cinder.'},
+ {k:"i",n:"IMG_8953 1 2",x:0,y:1206,w:857,h:482},
+ {k:"i",n:"IMG_1301 1",x:0,y:1804,w:857,h:482},
+ {k:"i",n:"IMG_8950 1",x:1063,y:1206,w:857,h:482},
+ {k:"i",n:"IMG_1303 1",x:1063,y:1804,w:857,h:482},
+ {k:"i",n:"IMG_8935 1",x:0,y:2402,w:640,h:427},
+ {k:"i",n:"IMG_8933 2",x:640,y:2402,w:640,h:427},
+ {k:"i",n:"IMG_8941 1",x:1280,y:2402,w:640,h:427},
+ {k:"i",n:"IMG_8939 2",x:0,y:2945,w:960,h:640},
+ {k:"i",n:"IMG_1267 1",x:960,y:2945,w:960,h:640}]},
+{s:"sonic-erection",t:"Sonic Erection",h:25,H:14616,it:[
+ {k:"i",n:"train1 4 2",x:0,y:0,w:1920,h:1055},
+ {k:"t",x:8,y:1418,w:433,html:'<span class="t">Sonic Erection.</span> Ongoing<br>Photography for Swedish underground duo <i>Sonic Erection</i>.<br>Press, clubs, bts polaroids.'},
+ {k:"i",n:"IMG_4596 3 2",x:0,y:1186,w:480,h:450},
+ {k:"i",n:"IMG_4587 2 2",x:480,y:1186,w:480,h:450},
+ {k:"i",n:"IMG_4597 2 2",x:960,y:1186,w:480,h:450},
+ {k:"i",n:"IMG_4583 2 2",x:1440,y:1186,w:480,h:450},
+ {k:"i",n:"hill1 3 2",x:0,y:1772,w:1920,h:893},
+ {k:"i",n:"IMG_4445 2 1",x:220,y:2872,w:778,h:1040},
+ {k:"i",n:"hill4 2 1",x:1155,y:3047,w:527,h:697},
+ {k:"i",n:"IMG_4543 2 2",x:64,y:4129,w:1091,h:818},
+ {k:"i",n:"IMG_4562 2 3",x:1226,y:4195,w:626,h:696},
+ {k:"i",n:"image 14",x:0,y:5108,w:1920,h:1084},
+ {k:"t",x:7,y:6197,w:158,html:'Love is Shouty x Sonic Erection'},
+ {k:"i",n:"IMG_6620 1",x:1491,y:6411,w:417,h:640},
+ {k:"i",n:"IMG_6609 1",x:3,y:6310,w:675,h:1155},
+ {k:"i",n:"IMG_6618 1",x:832,y:6961,w:478,h:750},
+ {k:"i",n:"IMG_6601 1",x:1164,y:7797,w:690,h:1059},
+ {k:"i",n:"IMG_6608 1",x:118,y:7631,w:420,h:632},
+ {k:"i",n:"IMG_6617 1",x:327,y:8389,w:564,h:896},
+ {k:"i",n:"IMG_6611 1",x:1242,y:8855,w:531,h:805},
+ {k:"i",n:"IMG_6613 1",x:52,y:9379,w:771,h:1156},
+ {k:"i",n:"IMG_6610 1",x:938,y:10118,w:519,h:814},
+ {k:"i",n:"IMG_6602 1",x:236,y:11015,w:507,h:815},
+ {k:"i",n:"IMG_6605 1",x:1160,y:11187,w:626,h:988},
+ {k:"i",n:"DSCF8410 3 1",x:0,y:12358,w:1920,h:1281},
+ {k:"i",n:"DSCF8411 2 1",x:0,y:13812,w:960,h:644},
+ {k:"i",n:"DSCF8205 2 2",x:960,y:13812,w:960,h:644}]},
+{s:"jahanam",t:"Jahanam",h:280,H:760,it:[
+ {k:"v",strip:1,x:0,y:0,w:1920,h:520,v:[["jahanam-body2body","BODY2BODY"],["jahanam-oblivion","OBLIVION"],["jahanam-pickup","Pick up the Phone"]]},
+ {k:"t",x:13,y:520,w:433,html:'<span class="t">Born 2 Fuck.</span> 2026<br>Music videos for Swedish artist Jahanam,<br>Directed, shot, edited, and styled in collaboration with Jade Brandt.'}]},
+{s:"hair-bible",t:"Hair Bible",h:350,H:1080,book:1,it:[
+ {k:"g",n:"hair-bible-gif",x:353,y:79,w:1214,h:859},
+ {k:"t",x:73,y:956,w:433,html:'<span class="t">Hair Bible.</span> 2026<br>Book made in the course “100 images” in collaboration with Roza Kasirga.<br>Personal photographs and collected images.<br><br><br><br>Riso print, glue bind, film developing, indesign.'},
+ {k:"t",x:506,y:970,w:197,html:'Interview with Giovanni Bissoli.<br>Text by Alexandra Jansson Morena.<br>Format: 18,5 x 24 cm.<br>School: Beckmans College of Design<br>Course led by: Laslo Strong<br>Presented at: Konst-ig Bokhandel'}]},
+{s:"katarinahissen",t:"Katarinahissen",h:215,H:5200,it:[
+ {k:"v",x:0,y:0,w:1920,h:930,v:[["katarinahissen-banner","Katarinahissen"]],loop:1},
+ {k:"t",x:117,y:956,w:433,html:'<span class="t">Katarinahissen.</span> 2026<br>Reimagining Stockholms Rederi Svea AB, a historical inactive shipping company and transforming it into relevant identities for today’s market.<br>Clothing, video, photographs, typeface and logo made in the course “Graphic Identity”.<br><br><br><br>glyphs, figma, and merchandise design with natural latex.'},
+ {k:"t",x:604,y:971,w:197,html:'School: Beckmans College of Design<br>Course led by: Simon Graf<br>Presented at: Katarinahissen and Cafe Klotet'},
+ {k:"i",n:"IMG_0270 1 2",x:80,y:1129,w:816,h:1087},
+ {k:"i",n:"IMG_0316 1 2",x:1023,y:1131,w:816,h:1085},
+ {k:"i",n:"IMG_0307 1 3",x:80,y:2344,w:816,h:1087},
+ {k:"i",n:"IMG_0297 1 2",x:1023,y:2344,w:816,h:1087},
+ {k:"i",n:"SnapInsta",f:"process-still.jpg",x:80,y:3503,w:1759,h:976},
+ {k:"s",x:80,y:4580,w:1759,h:460,s:[["i","process-1.jpg"],["i","process-2.jpg"],["i","process-3.jpg"],["i","process-4.jpg"],["v","katarinahissen-process"]]}]},
+{s:"cubism",t:"Cubism",h:60,H:1080,it:[
+ {k:"m",src:"models/cube1.glb",x:680,y:60,w:560,h:880},
+ {k:"m",src:"models/cube2.glb",orb:"0deg 50deg auto",x:110,y:60,w:560,h:880},
+ {k:"m",src:"models/cube3.glb",x:1250,y:60,w:560,h:880},
+ {k:"t",x:8,y:998,w:433,html:'<span class="t">Cubism.</span> 2026<br>Cubes made in the course aesthetics, ethics, and politics. Images printed in large format on large cubes.'},
+ {k:"t",x:485,y:1013,w:433,html:'School: Beckmans college of design.<br>Course led by: Måns Wrange'}]},
+{s:"my-body-my-playground",t:"My Body my Playground",h:0,H:860,pages:["mbp_1","mbp_2","mbp_3","mbp_4","mbp_5","mbp_6","mbp_7","mbp_8","mbp_9","mbp_10"],it:[
+ {k:"g",n:"my-body-my-playground-gif",x:40,y:100,w:900,h:565},
+ {k:"b",x:980,y:100,w:900,h:642},
+ {k:"t",x:24,y:1009,w:433,html:'<span class="t">My body my playground.</span> 2026<br>A collection of self portraits taken throughout a week of experimenting with self expression limited to items in my bedroom.'},
+ {k:"t",x:514,y:1024,w:433,html:'School: Beckmans college of design.<br>Course led by: Lisa Ehlin'}]},
+{s:"chloe",t:"Chloe",h:15,H:7496,it:[
+ {k:"i",n:"DSCF1139 1 copy 2",x:0,y:-25,w:1920,h:1280},
+ {k:"t",x:34,y:1264,w:433,html:'<span class="t">Chloé.</span> 2026<br>Photography, styling, makeup, and creative direction.'},
+ {k:"i",n:"DSCF1245 1 copy 1",x:66,y:1531,w:720,h:1080},
+ {k:"i",n:"DSCF1234 1 copy 2",x:901,y:1753,w:953,h:635},
+ {k:"i",n:"DSCF1321 1 copy 3",x:0,y:2797,w:1944,h:1296},
+ {k:"i",n:"DSCF1194 1 copy 1",x:1327,y:4279,w:520,h:781},
+ {k:"i",n:"DSCF1204 1 copy 2",x:66,y:4279,w:1171,h:781},
+ {k:"i",n:"DSCF1092 2 copy 3",x:0,y:5246,w:960,h:640},
+ {k:"i",n:"DSCF1066 1 copy 1",x:960,y:5246,w:960,h:640}]},
+{s:"jesseli",t:"Jesseli",h:300,H:4621,it:[
+ {k:"i",n:"DSCF3099 1 1",x:0,y:0,w:1920,h:1080},
+ {k:"t",x:16,y:1096,w:433,html:'<span class="t">Jesseli.</span> 2024<br>Photography, styling, makeup, and creative direction.'},
+ {k:"i",n:"DSCF3063 1 2",x:0,y:1339,w:960,h:718},
+ {k:"i",n:"DSCF3027 copy 1",x:960,y:1339,w:960,h:720},
+ {k:"i",n:"DSCF3305 2 2",x:295,y:2186,w:1329,h:997},
+ {k:"i",n:"DSCF3356 copy 1",x:153,y:3442,w:698,h:931},
+ {k:"i",n:"DSCF3372 2",x:982,y:3614,w:784,h:588}]},
+{s:"jade",t:"Jade",h:170,H:3815,it:[
+ {k:"i",n:"IMG_4280 2 3",x:0,y:0,w:1920,h:1080},
+ {k:"t",x:17,y:1091,w:433,html:'<span class="t">Jade.</span> 2024<br>Photography, styling, and creative direction.'},
+ {k:"i",n:"IMG_4284 2",x:0,y:1368,w:960,h:540},
+ {k:"i",n:"IMG_4298 2 2",x:960,y:1368,w:960,h:540},
+ {k:"i",n:"IMG_4229 2 1",x:0,y:2104,w:1920,h:1080}]},
+{s:"lara",t:"Lara",h:95,H:6154,it:[
+ {k:"i",n:"IMG_6200 2",x:0,y:-101,w:1920,h:1281},
+ {k:"t",x:15,y:1190,w:433,html:'<span class="t">Lara.</span> 2023<br>Photography, styling, makeup, and creative direction.'},
+ {k:"i",n:"IMG_5196 2 2",x:0,y:1334,w:960,h:720},
+ {k:"i",n:"IMG_5200 2 2",x:960,y:1334,w:960,h:720},
+ {k:"i",n:"IMG_6205 3 2",x:126,y:2319,w:721,h:1080},
+ {k:"i",n:"IMG_6202 1",x:1144,y:2457,w:649,h:803},
+ {k:"i",n:"IMG_5122 2 2",x:632,y:3664,w:1288,h:966},
+ {k:"i",n:"IMG_5125 3 2",x:0,y:3664,w:632,h:966}]},
+{s:"gallery",t:"Gallery",h:0,H:2802,it:[
+ {k:"i",n:"g01",f:"g01.jpg",x:0,y:0,w:247,h:329},
+ {k:"i",n:"g02",f:"g02.jpg",x:247,y:0,w:494,h:329},
+ {k:"i",n:"g03",f:"g03.jpg",x:741,y:0,w:246,h:329},
+ {k:"i",n:"g04",f:"g04.jpg",x:987,y:0,w:247,h:329},
+ {k:"i",n:"g05",f:"g05.jpg",x:1234,y:0,w:247,h:329},
+ {k:"i",n:"g06",f:"g06.jpg",x:1481,y:0,w:439,h:329},
+ {k:"i",n:"g07",f:"g07.jpg",x:0,y:329,w:541,h:331},
+ {k:"i",n:"g08",f:"g08.jpg",x:541,y:329,w:441,h:331},
+ {k:"i",n:"g09",f:"g09.jpg",x:982,y:329,w:441,h:331},
+ {k:"i",n:"g10",f:"g10.jpg",x:1423,y:329,w:249,h:331},
+ {k:"i",n:"g11",f:"g11.jpg",x:1672,y:329,w:248,h:331},
+ {k:"i",n:"g51",f:"g51.jpg",x:0,y:660,w:240,h:320},
+ {k:"i",n:"g12",f:"g12.jpg",x:240,y:660,w:239,h:320},
+ {k:"i",n:"g50",f:"g50.jpg",x:479,y:660,w:240,h:320},
+ {k:"i",n:"g13",f:"g13.jpg",x:719,y:660,w:479,h:320},
+ {k:"i",n:"g14",f:"g14.jpg",x:1198,y:660,w:482,h:320},
+ {k:"i",n:"g15",f:"g15.jpg",x:1680,y:660,w:240,h:320},
+ {k:"i",n:"g16",f:"g16.jpg",x:0,y:980,w:244,h:314},
+ {k:"i",n:"g17",f:"g17.jpg",x:244,y:980,w:419,h:314},
+ {k:"i",n:"g18",f:"g18.jpg",x:663,y:980,w:419,h:314},
+ {k:"i",n:"g19",f:"g19.jpg",x:1082,y:980,w:419,h:314},
+ {k:"i",n:"g20",f:"g20.jpg",x:1501,y:980,w:419,h:314},
+ {k:"i",n:"g21",f:"g21.jpg",x:0,y:1294,w:567,h:319},
+ {k:"i",n:"g22",f:"g22.jpg",x:567,y:1294,w:239,h:319},
+ {k:"i",n:"g23",f:"g23.jpg",x:806,y:1294,w:211,h:319},
+ {k:"i",n:"g24",f:"g24.jpg",x:1017,y:1294,w:239,h:319},
+ {k:"i",n:"g25",f:"g25.jpg",x:1256,y:1294,w:425,h:319},
+ {k:"i",n:"g26",f:"g26.jpg",x:1681,y:1294,w:239,h:319},
+ {k:"i",n:"g27",f:"g27.jpg",x:0,y:1613,w:449,h:299},
+ {k:"i",n:"g28",f:"g28.jpg",x:449,y:1613,w:224,h:299},
+ {k:"i",n:"g47",f:"g47.jpg",x:673,y:1613,w:399,h:299},
+ {k:"i",n:"g44",f:"g44.jpg",x:1072,y:1613,w:225,h:299},
+ {k:"i",n:"g46",f:"g46.jpg",x:1297,y:1613,w:224,h:299},
+ {k:"i",n:"g29",f:"g29.jpg",x:1521,y:1613,w:399,h:299},
+ {k:"i",n:"g48",f:"g48.jpg",x:0,y:1912,w:240,h:320},
+ {k:"i",n:"g30",f:"g30.jpg",x:240,y:1912,w:240,h:320},
+ {k:"i",n:"g31",f:"g31.jpg",x:480,y:1912,w:453,h:320},
+ {k:"i",n:"g32",f:"g32.jpg",x:933,y:1912,w:320,h:320},
+ {k:"i",n:"g33",f:"g33.jpg",x:1253,y:1912,w:427,h:320},
+ {k:"i",n:"g49",f:"g49.jpg",x:1680,y:1912,w:240,h:320},
+ {k:"i",n:"g34",f:"g34.jpg",x:0,y:2232,w:254,h:339},
+ {k:"i",n:"g45",f:"g45.jpg",x:254,y:2232,w:254,h:339},
+ {k:"i",n:"g35",f:"g35.jpg",x:508,y:2232,w:452,h:339},
+ {k:"i",n:"g36",f:"g36.jpg",x:960,y:2232,w:452,h:339},
+ {k:"i",n:"g37",f:"g37.jpg",x:1412,y:2232,w:508,h:339},
+ {k:"i",n:"g38",f:"g38.jpg",x:0,y:2571,w:308,h:231},
+ {k:"i",n:"g39",f:"g39.jpg",x:308,y:2571,w:185,h:231},
+ {k:"i",n:"g40",f:"g40.jpg",x:493,y:2571,w:232,h:231},
+ {k:"i",n:"g41",f:"g41.jpg",x:725,y:2571,w:231,h:231},
+ {k:"i",n:"g42",f:"g42.jpg",x:956,y:2571,w:347,h:231},
+ {k:"i",n:"g43",f:"g43.jpg",x:1303,y:2571,w:309,h:231},
+ {k:"i",n:"g52",f:"g52.jpg",x:1612,y:2571,w:308,h:231}]}
+];
+for(var _i=0;_i<P.length;_i++){var _p=P[_i];_p.book=_p.book||0;}
+/* captions: sit directly under the first full-bleed image / video / model on every project (col 1 at x=21, col 2 at x=491) */
+P.forEach(function(p){
+  var vis=p.it.filter(function(a){return a.k==="i"||a.k==="v"||a.k==="m"||a.k==="g";}).sort(function(a,b){return a.y-b.y;});
+  if(!vis.length){return;}
+  var bottom=Math.max.apply(null,vis.filter(function(a){return a.y===vis[0].y;}).map(function(a){return a.y+a.h;}));
+  p.it.forEach(function(a){
+    if(a.k==="t"&&a.html.indexOf("Love is Shouty")===0){a.x=21;return;}
+    if(a.k!=="t"){return;}
+    a.y=bottom+14; a.x=a.html.indexOf('<span class="t">')===0?21:491;
+  });
+});
+/* hair bible spreads: hairbible_1 ... hairbible_53 */
+var BOOK = []; for(var _b=1;_b<=53;_b++){BOOK.push("hairbible_"+_b);}
+
+/* Landing slideshow: [image layer name, project slug] */
+var GAL = [["DSCF1092 2 copy 2","chloe"],["hill1 3 1","sonic-erection"],["IMG_6200 Medium 1","lara"],["IMG_4280 2 2","jade"],["DSCF3063 1 1","jesseli"],["IMG_8953 1 1","ak-cinder"],["look3 copy 1","nathalia"]];
+var PH = {s:"landing",t:"Lykke Gowran",h:40};
+var SLIDE_MS = 5000;
+var HOVER_VID = {"katarinahissen":"video/hover-katarinahissen.mp4","jahanam":"video/hover-jahanam.mp4"};
+var HOVER_IMG = ["ak-cinder","chloe","jade","jesseli","lara","nathalia","sonic-erection","hair-bible","my-body-my-playground","gallery"];
+
+var mvLoaded=false;
+function loadMV(){if(mvLoaded){return;}mvLoaded=true;var sc=document.createElement("script");sc.type="module";sc.src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js";document.head.appendChild(sc);}
+var _mu={};
+function murl(src){
+  if(window.MODELS&&window.MODELS[src]){
+    if(!_mu[src]){try{var bin=atob(window.MODELS[src]),u=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++){u[i]=bin.charCodeAt(i);}_mu[src]=URL.createObjectURL(new Blob([u],{type:"model/gltf-binary"}));}catch(e){return src;}}
+    return _mu[src];
+  }
+  return src;
+}
+function viewer(src,orb){return '<model-viewer src="'+murl(src)+'"'+(orb?' camera-orbit="'+orb+'"':'')+' camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="40deg" interaction-prompt="none" shadow-intensity="0" alt="3D model of a cube"></model-viewer>';}
+function kick(v){try{v.muted=true;v.defaultMuted=true;v.setAttribute("muted","");v.playsInline=true;var pr=v.play();if(pr&&pr.catch){pr.catch(function(){v.controls=true;});}}catch(e){}}
+function previewFor(p,box){
+  if(HOVER_VID[p.s]){box.innerHTML='<video src="'+HOVER_VID[p.s]+'" autoplay muted loop playsinline preload="auto"></video>';var hv=box.querySelector("video");kick(hv);hv.addEventListener("loadeddata",function(){kick(hv);});return true;}
+  if(p.s==="cubism"){loadMV();box.innerHTML=viewer("models/cubism-nav.glb");return true;}
+  if(HOVER_IMG.indexOf(p.s)>-1){box.innerHTML='<img src="images/nav/'+p.s+'.jpg" alt="">';return true;}
+  return false;
+}
+
+var app=document.getElementById("app"), timer=null, bookKey=0;
+var mq=window.matchMedia("(max-width:700px)");
+var reduce=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+function H(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function hash(s){var h=0;for(var i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))>>>0;}return h;}
+function miss(el){var d=document.createElement("div");d.className="ph";d.style.setProperty("--h",el.dataset.h||0);d.style.setProperty("--l","60%");if(LABELS){d.dataset.n=el.dataset.n;}el.replaceWith(d);}
+function file(p,n,f){
+  if(f){return "images/"+p.s+"/"+f;}
+  var tok=String(n).split(" ")[0], m=FILES[p.s]||{};
+  return "images/"+p.s+"/"+(m[tok]||(n+".jpg"));
+}
+function pic(p,n,f){
+  return '<img src="'+H(encodeURI(file(p,n,f)))+'" alt="'+H(p.t)+'" loading="lazy" data-n="'+H(n)+'" data-h="'+p.h+'" onerror="miss(this)">';
+}
+function vtag(n,loop){return '<video src="'+H(encodeURI(VIDEO_BASE+n+".mp4"))+'" controls muted '+(loop?'loop ':'')+'playsinline preload="metadata" data-auto></video>';}
+function pcar(p,a){
+  return '<div class="vs">'+a.s.map(function(t){return '<div>'+(t[0]==="v"?vtag(t[1],true):pic(p,"proc",t[1]))+'</div>';}).join("")+'</div><div class="vn"><button type="button" data-vs="-1" aria-label="Previous">Prev</button><span>Process</span><button type="button" data-vs="1" aria-label="Next">Next</button></div>';
+}
+function vcar(a){
+  var n=a.v.length;
+  return '<div class="vs">'+a.v.map(function(v){return '<div data-t="'+H(v[1])+'">'+vtag(v[0],true)+'</div>';}).join("")+'</div>'+
+    (n>1?'<div class="vn"><button type="button" data-vs="-1" aria-label="Previous video">Prev</button><span data-vl>1 / '+n+' · '+H(a.v[0][1])+'</span><button type="button" data-vs="1" aria-label="Next video">Next</button></div>':'');
+}
+function gifbox(p,a){
+  return '<img src="'+H(encodeURI("images/"+p.s+"/"+a.n+".gif"))+'" alt="'+H(p.t)+'" style="width:100%;height:100%;object-fit:contain" onerror="this.outerHTML=\'<span class=slot>gif here</span>\'">';
+}
+function canvasH(p){
+  var b=0; p.it.forEach(function(a){var e=a.k==="t"?a.y+90:a.y+a.h; if(e>b){b=e;}});
+  return Math.min(p.H,Math.max(1080,b+(p.H>1080?160:0)));
+}
+function css(p,a,Hc){return 'left:'+(a.x/19.2)+'%;top:'+(a.y/Hc*100)+'%;width:'+(a.w/19.2)+'%;'+(a.h?'height:'+(a.h/Hc*100)+'%;':'');}
+function canvas(p){
+  var Hc=canvasH(p), out='<div class="cv" style="aspect-ratio:1920/'+Hc+'">';
+  p.it.forEach(function(a){
+    if(a.k==="t"){out+='<p class="tx" style="'+css(p,a,Hc)+'">'+a.html+'</p>';}
+    else if(a.k==="i"){out+='<div class="it" style="'+css(p,a,Hc)+'">'+pic(p,a.n,a.f)+'</div>';}
+    else if(a.k==="v"){out+='<div class="it vc'+(a.loop?' cover':'')+(a.strip?' strip':'')+'" data-vc style="'+css(p,a,Hc)+'">'+vcar(a)+'</div>';}
+    else if(a.k==="m"){loadMV();out+='<div class="it vm" style="'+css(p,a,Hc)+'">'+viewer(a.src,a.orb)+'</div>';}
+    else if(a.k==="g"){out+='<div class="it" style="'+css(p,a,Hc)+'">'+gifbox(p,a)+'</div>';}
+    else if(a.k==="b"){out+='<div class="it bkit" style="'+css(p,a,Hc)+'">'+book(p)+'</div>';}
+    else if(a.k==="s"){out+='<div class="it vc proc" data-vc style="'+css(p,a,Hc)+'">'+pcar(p,a)+'</div>';}
+  });
+  return out+'</div>';
+}
+function book(p){
+  return '<div class="bk" data-book="'+p.s+'"><div class="spread" id="spread" role="button" tabindex="0" aria-label="Turn page"></div>'+
+   '<div class="bkc"><button type="button" data-bk="-1" aria-label="Previous spread">Prev</button><span id="bkn"></span><button type="button" data-bk="1" aria-label="Next spread">Next</button></div></div>';
+}
+function flow(p){
+  /* phone layout: everything in Figma order, one column */
+  var items=p.it.slice().sort(function(a,b){return a.y-b.y;}), out='<div class="mf">', ms=[];
+  items.forEach(function(a){
+    if(a.k==="t"){out+='<p class="tx">'+a.html+'</p>';}
+    else if(a.k==="i"){out+='<div class="mi" style="aspect-ratio:'+Math.min(a.w,1920)+'/'+Math.min(a.h,1400)+'">'+pic(p,a.n,a.f)+'</div>';}
+    else if(a.k==="v"){out+='<div class="vc" data-vc>'+vcar(a)+'</div>';}
+    else if(a.k==="m"){if(!ms.length){loadMV();}ms.push(a);out+='<div class="vm">'+viewer(a.src,a.orb)+'</div>';}
+    else if(a.k==="g"){out+='<div class="mi" style="aspect-ratio:'+(a.w/a.h)+';background:#fff">'+gifbox(p,a)+'</div>';}
+    else if(a.k==="b"){out+='<div class="bkit">'+book(p)+'</div>';}
+    else if(a.k==="s"){out+='<div class="vc proc" data-vc>'+pcar(p,a)+'</div>';}
+  });
+  return out+'</div>';
+}
+function home(){
+  return '<section class="hero" id="show">'+GAL.map(function(g,i){
+    return '<a class="sl'+(i===0?' on':'')+'" href="#'+g[1]+'" aria-label="Open '+H(g[1])+'"'+(i===0?'':' aria-hidden="true" tabindex="-1"')+'>'+pic(PH,g[0])+'</a>';
+  }).join("")+'<h1>Lykke Gowran</h1></section>';
+}
+function startShow(){
+  var els=document.querySelectorAll("#show .sl"); if(els.length<2){return;}
+  var i=0;
+  timer=setInterval(function(){
+    els[i].classList.remove("on");els[i].setAttribute("aria-hidden","true");els[i].tabIndex=-1;
+    i=(i+1)%els.length;
+    els[i].classList.add("on");els[i].removeAttribute("aria-hidden");els[i].tabIndex=0;
+  },SLIDE_MS);
+}
+function projects(){
+  return '<section class="pj"><nav class="plist" aria-label="Projects">'+P.map(function(p,i){
+    return '<a href="#'+p.s+'" data-i="'+i+'">'+H(p.t)+'</a>';
+  }).join("")+'</nav><div class="prev" aria-hidden="true"></div></section>';
+}
+function project(k){
+  var p=P[k], nx=P[(k+1)%P.length];
+  var body=mq.matches?flow(p):canvas(p);
+  if(p.book){body+=book(p);}
+  return body+'<div class="end"><a href="#projects">All projects</a><a href="#'+nx.s+'">Next: '+H(nx.t)+'</a></div>';
+}
+function about(){
+  return '<section class="about"><div class="ap"><img src="images/about/about.jpg" alt="Lykke Gowran" onerror="this.parentNode.style.display=\'none\'"></div><div>'+
+   '<p>Lykke Gowran (b. 2002, San Diego) is a Swedish-Irish visual creative currently based in Stockholm, Sweden. Working across creative direction, photography and styling, she is eager to explore different creative fields and ways of working.</p>'+
+   '<p>Her interests lie in people, music, fashion and subcultures, with a curiosity for the spaces where these worlds intersect.</p>'+
+   '<p>Having grown up across the USA, Taiwan, China, the Philippines, Amsterdam and Sweden, Lykke brings an international perspective to her work.</p>'+
+   '<p class="ah">Education</p>'+
+   '<p>BA Media and Culture — University of Amsterdam (2021–2024)<br>BFA — Beckmans College of Design (2025–present)</p>'+
+   '<p class="ah">Contact</p>'+
+   '<p><a href="mailto:lykkeg2002@gmail.com">lykkeg2002@gmail.com</a><br>Instagram: <a href="https://www.instagram.com/lykkelotus" target="_blank" rel="noopener">@lykkelotus</a></p>'+
+   '</div></section>';
+}
+
+function startPreview(i){
+  var box=document.querySelector(".prev"); if(!box){return;}
+  clearInterval(timer);
+  previewFor(P[i],box);
+}
+function drawBook(){
+  var el=document.querySelector("[data-book]"); if(!el){return;}
+  var p=P.filter(function(x){return x.s===el.dataset.book;})[0], pages=p.pages||BOOK, total=pages.length;
+  if(bookKey<0){bookKey=0;} if(bookKey>=total){bookKey=total-1;}
+  document.getElementById("spread").innerHTML=pic(p,pages[bookKey]);
+  document.getElementById("bkn").textContent=(bookKey+1)+" / "+total;
+}
+function turn(d){bookKey+=d;drawBook();}
+
+var io=("IntersectionObserver" in window)?new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting){kick(v);}else{v.pause();}});},{threshold:.5}):null;
+function hookVideos(){if(!io){return;}document.querySelectorAll("video[data-auto]").forEach(function(v){io.observe(v);});}
+function vlabel(car){
+  var s=car.querySelector(".vs"), l=car.querySelector("[data-vl]"); if(!s||!l){return;}
+  var n=s.children.length, mx=Math.max(1,s.scrollWidth-s.clientWidth), i=Math.min(n-1,Math.round(s.scrollLeft/mx*(n-1)));
+  l.textContent=(i+1)+" / "+n+" · "+s.children[i].dataset.t;
+}
+document.addEventListener("scroll",function(e){var t=e.target;if(t&&t.classList&&t.classList.contains("vs")){vlabel(t.parentNode);}},true);
+
+function render(){
+  clearInterval(timer); bookKey=0;
+  var h=(location.hash||"").slice(1), k=-1;
+  P.forEach(function(p,i){if(p.s===h){k=i;}});
+  var html;
+  if(k>=0){html=project(k);document.title="Lykke Gowran – "+P[k].t;}
+  else if(h==="projects"){html=projects();document.title="Lykke Gowran – Projects";}
+  else if(h==="about"){html=about();document.title="Lykke Gowran – About";}
+  else{html=home();document.title="Lykke Gowran";}
+  document.body.classList.toggle("home",!(k>=0||h==="projects"||h==="about"));
+  app.innerHTML=html;
+  if(h==="projects"){var j=P.map(function(p){return p.s;}).indexOf("jesseli");var box=document.querySelector(".prev");if(box&&!mq.matches){if(!previewFor(P[j],box)){box.innerHTML="";}}}
+  drawBook();hookVideos();
+  if(document.getElementById("show")){startShow();}
+  window.scrollTo(0,0);
+}
+document.addEventListener("mouseover",function(e){var a=e.target.closest&&e.target.closest(".plist a");if(a){startPreview(+a.dataset.i);}});
+document.addEventListener("focusin",function(e){var a=e.target.closest&&e.target.closest(".plist a");if(a){startPreview(+a.dataset.i);}});
+document.addEventListener("click",function(e){
+  var vb=e.target.closest&&e.target.closest("[data-vs]");
+  if(vb){var car=vb.closest("[data-vc]"),s=car.querySelector(".vs");s.scrollBy({left:(+vb.dataset.vs)*(car.classList.contains('proc')?s.clientWidth*.6:(car.querySelector('.strip')||car.classList.contains('strip')?s.children[0].offsetWidth*1.04:s.clientWidth)),behavior:"smooth"});return;}
+  var b=e.target.closest&&e.target.closest("[data-bk]");
+  if(b){turn(+b.dataset.bk);return;}
+  var s2=e.target.closest&&e.target.closest("#spread");
+  if(s2){var r=s2.getBoundingClientRect();turn(e.clientX>r.left+r.width/2?1:-1);}
+});
+document.addEventListener("keydown",function(e){
+  if(!document.getElementById("spread")){return;}
+  if(e.key==="ArrowRight"){turn(1);}else if(e.key==="ArrowLeft"){turn(-1);}
+});
+window.addEventListener("hashchange",render);
+if(mq.addEventListener){mq.addEventListener("change",render);}
+render();
+</script>
+</body>
+</html>
