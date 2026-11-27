@@ -101,6 +101,16 @@ body.home header{mix-blend-mode:normal;color:#fff;}
 .mf .vc{height:auto;aspect-ratio:16/9;margin-bottom:14px;}
 .mf .vm{display:flex;flex-direction:column;gap:14px;margin-bottom:14px;}
 .mf .vm model-viewer{height:70vw;}
+.mf .vc{position:relative;container-type:inline-size;}
+.mf .vc .vn{font-size:11px;bottom:8px;gap:14px;}
+.mf .vc .vn button{padding:10px 12px;}
+.mf .vc.strip{aspect-ratio:auto;}
+.mf .vc.strip .vs{height:auto;padding:0;gap:8px;scroll-snap-type:x mandatory;}
+.mf .vc.strip .vs>div{flex:0 0 84%;}
+.mf.gal{padding:56px 0 0;}
+.gal .gr{display:flex;margin:0;padding:0;}
+.gal .gr>div{min-width:0;overflow:hidden;}
+.gal .gr img{width:100%;height:100%;object-fit:cover;display:block;}
 @media (max-width:700px){
   .plist{position:static;padding:calc(env(safe-area-inset-top,0px) + 56px) 14px 40px;font-size:18px;gap:4px;}
   .prev{display:none;}
@@ -388,7 +398,17 @@ function book(p){
   return '<div class="bk" data-book="'+p.s+'"><div class="spread" id="spread" role="button" tabindex="0" aria-label="Turn page"></div>'+
    '<div class="bkc"><button type="button" data-bk="-1" aria-label="Previous spread">Prev</button><span id="bkn"></span><button type="button" data-bk="1" aria-label="Next spread">Next</button></div></div>';
 }
+function gallery(p){
+  /* phone: justified rows of 2-3 images, edge to edge, no gaps */
+  var its=p.it.filter(function(a){return a.k==="i";}).sort(function(a,b){return a.y-b.y||a.x-b.x;});
+  var rows=[],cur=[],sum=0;
+  its.forEach(function(a){cur.push([a,a.w/a.h]);sum+=a.w/a.h;if(cur.length>=3||(cur.length>=2&&sum>=2.1)){rows.push(cur);cur=[];sum=0;}});
+  if(cur.length===1&&rows.length){var pv=rows[rows.length-1];if(pv.length>=3){cur.unshift(pv.pop());}else{pv.push(cur[0]);cur=[];}}
+  if(cur.length){rows.push(cur);}
+  return '<div class="mf gal">'+rows.map(function(row){return '<div class="gr">'+row.map(function(x){return '<div style="flex:'+x[1]+' 1 0;aspect-ratio:'+x[1]+'">'+pic(p,x[0].n,x[0].f)+'</div>';}).join("")+'</div>';}).join("")+'</div>';
+}
 function flow(p){
+  if(p.s==="gallery"){return gallery(p);}
   /* phone layout: everything in Figma order, one column */
   var items=p.it.slice().sort(function(a,b){return a.y-b.y;}), out='<div class="mf">', ms=[];
   items.forEach(function(a){
